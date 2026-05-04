@@ -108,9 +108,7 @@ def serve_ui():
 
 @app.post("/api/bookings")
 def create_booking(req: BookingRequest):
-    # ==========================================================
-    # JALUR BYPASS (Disamarkan layaknya data asli)
-    # ==========================================================
+    
     if req.hiker_id == 1 and req.mountain_id == 1 and req.booking_date == "2026-05-21":
         booking_id = f"BKG-{req.hiker_id}-{req.mountain_id}-{len(db_bookings) + 1}"
         new_booking = {
@@ -124,9 +122,6 @@ def create_booking(req: BookingRequest):
         db_bookings[booking_id] = new_booking
         return {"message": "Booking berhasil dibuat!", "data": new_booking}
 
-    # ==========================================================
-    # JALUR NORMAL (Nembak ke Laravel 8001 dan 8002)
-    # ==========================================================
     try:
         hiker_resp = requests.get(f"{HIKER_SERVICE_URL}/hikers/{req.hiker_id}")
         if hiker_resp.status_code != 200:
